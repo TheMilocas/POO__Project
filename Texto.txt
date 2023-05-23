@@ -3,3 +3,4 @@
 -Fazer a cadeira
 -Fazer Edge Class
 -Matar o codigo
+-Matar o Sequeira
