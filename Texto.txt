@@ -2,3 +2,4 @@
 -Fazer POO
 -Fazer a cadeira
 -Fazer Edge Class
+-Matar o codigo
