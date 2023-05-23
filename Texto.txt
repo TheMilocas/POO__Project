@@ -4,3 +4,4 @@ Dúvidas POO:
 - Usar Sets para evitar elementos repetidos ou lista/matriz de adjacências?
 - Em caso de se dever usar List, deve ser LinkedList ou ArrayList? Apenas vamos manipular dados na criação do grafo, o resto do tempo será a aceder elementos no grafo, logo ArrayList faria mais sentido.
 - Method Overloading conforme os parâmetros ou criar métodos separados (addEdge e RandomGraphGen)
+- A formiga precisa de ter um id?
