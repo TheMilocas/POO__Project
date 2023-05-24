@@ -5,3 +5,6 @@ Dúvidas POO:
 - Em caso de se dever usar List, deve ser LinkedList ou ArrayList? Apenas vamos manipular dados na criação do grafo, o resto do tempo será a aceder elementos no grafo, logo ArrayList faria mais sentido.
 - Method Overloading conforme os parâmetros ou criar métodos separados (addEdge e RandomGraphGen)
 - A formiga precisa de ter um id?
+
+Notas: Não colocar o nível das feromonas no gráfo!!! No package das formigas podemos colocar uma tabela, por exemplo.
+	 Temos de ter um package para o grafo e outro para as formigas.
