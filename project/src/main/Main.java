@@ -47,8 +47,10 @@ public class Main {
             
             for (int i = 0; i < numNodes; i++) {
                 for (int j = i; j < numNodes; j++) {
-                   matrix[i][j] = random.nextInt(maxWeight+1);
-                   matrix[j][i] = matrix[i][j];
+                	if (i == j)
+                		matrix[i][j] = 0;
+                	else
+                		matrix[i][j] = random.nextInt(maxWeight+1);
                 }
             }
             
