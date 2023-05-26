@@ -7,3 +7,4 @@ Preparar um método que recebe uma matriz e preenche a lista de adjacências.
 
 Criar uma classe Grafo que é mais genérica e tem os métodos habituais de um grafo e depois criar uma subclasse do grafo que tem as funções mais especificas e características do nosso problema.
 
+Coisas que costumam aparecer no projeto: simpleton, fabrica, strategy, template method do sort (inicialização-corre-etc), structural
