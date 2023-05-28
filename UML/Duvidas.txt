@@ -1,7 +1,3 @@
-O ACO e os grafos devem estar em packages diferentes ou no mesmo?
-
-Para a formiga mover precisa de ter acesso à lista de adjacências do grafo. Se estiverem em packages diferentes, ou esse atributo fica público (o que pode correr mal) ou então colocamos o método que queriamos usar na formiga no grafo e chamamos um objeto do Grafo através do import. Há mais métodos onde isto vai acontecer como o setPheromoneLevel e o construtor da formiga, que precisa do número de nós do grafo.
-
 É preciso um UML para o DSS?
 
 

@@ -1,0 +1,7 @@
+Dúvidas POO:
+
+- Method Overloading conforme os parâmetros ou criar métodos separados (addEdge e RandomGraphGen)
+- A formiga precisa de ter um id?
+
+Notas: Não colocar o nível das feromonas no gráfo!!! No package das formigas podemos colocar uma tabela, por exemplo.
+	 Temos de ter um package para o grafo e outro para as formigas.

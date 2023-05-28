@@ -1,0 +1,3 @@
+Diogo
+-f "C:\Users\35193\Documents\GitHub\POO__Project\project\testeGrafo.txt"
+-r 5 6 1 1.0 1.0 0.2 2.0 10.0 0.5 200 300.0

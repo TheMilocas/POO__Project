@@ -1,0 +1,10 @@
+No main, em vez de ter codigo corrido para a leitura dos dois comandos podemos criar um método chamado interface que retorna 0 ou 1 dependendo se é preciso gerar um grafo aleatório ou criar um grafo que é pedido.
+
+Depois, podemos utilizar um método que constroi o grafo, dependendo do input dado pela interface.
+
+Preparar um método só para ler o ficheiro.
+Preparar um método que recebe uma matriz e preenche a lista de adjacências.
+
+Criar uma classe Grafo que é mais genérica e tem os métodos habituais de um grafo e depois criar uma subclasse do grafo que tem as funções mais especificas e características do nosso problema.
+
+Coisas que costumam aparecer no projeto: simpleton, fabrica, strategy, template method do sort (inicialização-corre-etc), structural
