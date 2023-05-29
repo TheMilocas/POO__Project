@@ -31,7 +31,7 @@ public class Graph {
      */
     public Graph(int nodes) {
         this.nodes = nodes;
-        adjacencyList = new ArrayList[nodes];
+        adjacencyList =  new ArrayList[nodes];
         for (int i = 0; i < nodes; i++) {
             adjacencyList[i] = new ArrayList<>();
         }
@@ -44,7 +44,7 @@ public class Graph {
      * @param destination the destination vertex
      * @param weight the weight of the edge
      */
-    public void addEdge(int u, int v, int weight) {
+    private void addEdge(int u, int v, int weight) {
     	adjacencyList[u-1].add(new Edge(u, v, weight));
         adjacencyList[v-1].add(new Edge(v, u, weight));
     }
@@ -125,7 +125,6 @@ public class Graph {
         }
 
         for (Edge edge : list) {
-        	int k=0;
             if (unvisitedNodes.contains(edge.getOtherNode())) {
                 // add the node to the path, updates the lists, and proceed with the search
                 path.add(edge.getOtherNode());
@@ -146,25 +145,50 @@ public class Graph {
         return false; // No Hamiltonian cycle found
     }
 
-    	
- 
-    	
-    
+	public static void buildGraph(Graph graph, int numNodes, int maxWeight) {
+		 
+		 Random random = new Random();
+	     
+	     // Random weight matrix
+	     int[][] matrix = new int[numNodes][numNodes];            
+	     
+	     for (int i = 0; i < numNodes; i++) {
+	         for (int j = i; j < numNodes; j++) {
+	         	if (i == j)
+	         		matrix[i][j] = 0;
+	         	else
+	         		matrix[i][j] = random.nextInt(maxWeight+1);
+	         }
+	     }	
+	     // Create the adjacency lists
+	     int weight;
+	     
+	     for (int i = 0; i < matrix.length; i++) { 	
+	         for (int j = i; j < matrix.length; j++) {
+	             weight = matrix[i][j];
+	         	if (weight != 0) {
+	                 graph.addEdge(i+1, j+1, weight);
+	             }
+	         }
+	     }
+	     
+	 }
+	
+	    
+	 public static void buildGraph(Graph graph, int numNodes, int[][] matrix) {	
+	     
+		 int weight;
+	     
+	     // Create the adjacency lists
+	     for (int i = 0; i < matrix.length; i++) { 	
+	         for (int j = i; j < matrix.length; j++) {
+	             weight = matrix[i][j];
+	         	if (weight != 0) {
+	                 graph.addEdge(i+1, j+1, weight);
+	             }
+	         }
+	     }
 
-    /**
-     * Main method to test the Graph class.
-     *
-     * @param args command-line arguments
-     */
-    public static void main(String[] args) {
-        Graph graph = new Graph(4);
-        
-        graph.addEdge(1, 2, 10);
-        graph.addEdge(1, 3, 5);
-        graph.addEdge(2, 3, 8);
-        graph.addEdge(3, 4, 2);
-        
-        graph.printGraph();
-    }
+	 }
 
 }
