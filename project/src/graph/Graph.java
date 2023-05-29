@@ -23,7 +23,7 @@ public class Graph {
 	private final int nodes;
 	private ArrayList<Edge>[] adjacencyList;
 	
-
+	
     /**
      * Constructs a graph with the specified number of vertices.
      *
@@ -31,10 +31,12 @@ public class Graph {
      */
     public Graph(int nodes) {
         this.nodes = nodes;
-        adjacencyList = new ArrayList[nodes];
+        adjacencyList =  new ArrayList[nodes];
         for (int i = 0; i < nodes; i++) {
             adjacencyList[i] = new ArrayList<>();
         }
+       
+        
     }
     
     /**
@@ -44,7 +46,7 @@ public class Graph {
      * @param destination the destination vertex
      * @param weight the weight of the edge
      */
-    public void addEdge(int u, int v, int weight) {
+    private void addEdge(int u, int v, int weight) {
     	adjacencyList[u-1].add(new Edge(u, v, weight));
         adjacencyList[v-1].add(new Edge(v, u, weight));
     }
@@ -71,20 +73,6 @@ public class Graph {
      */
     public int getNumNodes() {
         return nodes;
-    }
-    
-    /**
-     * Returns the number of edges in the graph.
-     *
-     * @return the number of edges
-     */
-    public int getNumEdges() {
-        int count = 0;
-        for (ArrayList<Edge> list : adjacencyList) {
-            count += list.size();
-        }
-        // Since the graph is undirected, each edge is counted twice, so divide by 2
-        return count / 2;
     }
     
     public boolean hasHamiltonian() { 	
@@ -125,7 +113,6 @@ public class Graph {
         }
 
         for (Edge edge : list) {
-        	int k=0;
             if (unvisitedNodes.contains(edge.getOtherNode())) {
                 // add the node to the path, updates the lists, and proceed with the search
                 path.add(edge.getOtherNode());
@@ -145,26 +132,102 @@ public class Graph {
         
         return false; // No Hamiltonian cycle found
     }
-
-    	
- 
-    	
     
+    // Build graph for -r
+	public static void buildGraph(Graph graph, int numNodes, int maxWeight) {
+		 
+		 ArrayList<Integer> hamiltonianCycle = new ArrayList<>(numNodes+1); 
 
-    /**
-     * Main method to test the Graph class.
-     *
-     * @param args command-line arguments
-     */
-    public static void main(String[] args) {
-        Graph graph = new Graph(4);
-        
-        graph.addEdge(1, 2, 10);
-        graph.addEdge(1, 3, 5);
-        graph.addEdge(2, 3, 8);
-        graph.addEdge(3, 4, 2);
-        
-        graph.printGraph();
-    }
+		 for(int i = 1; i < numNodes+1; i++) {
+			 hamiltonianCycle.add(i);
+		 }
+		 
+		 Collections.shuffle(hamiltonianCycle);
+		 hamiltonianCycle.add(hamiltonianCycle.get(0)); // add the first element of the list to the end to create a cycle
+	       
+	     int node1;
+	     int node2;
+	     Random random = new Random();
+	     int weight;
+	     
+	     // add the hamiltonian cycle to the graph structure
+	     for(int i = 1; i < hamiltonianCycle.size(); i++) {
+	    	 node1 = hamiltonianCycle.get(i-1);
+	    	 node2 = hamiltonianCycle.get(i);
+	    	 weight = random.nextInt(maxWeight)+1;
+	    	 graph.addEdge(node1, node2, weight);
+	     }
+	     
+	     int numEdges = numNodes + random.nextInt((numNodes*(numNodes-1)/2) - numNodes + 1); // random number of edges of the graph
+	     int viable = 0;
+	     
+	     for(int i = 0; i < numEdges-numNodes; i++) {
+	    	 
+	    	 node1 = random.nextInt(numNodes)+1;
+	    	 node2 = random.nextInt(numNodes)+1;
+	    	 weight = random.nextInt(maxWeight)+1;
+	    	 
+	    	 while(viable != 1) {
+		    	 // checks if node1 is equal to node2
+		    	 if(node1 == node2) {
+		    		 node1 = random.nextInt(numNodes)+1;
+		    		 continue;
+		    	 }
+		    	 
+		    	 for(Edge edge : graph.adjacencyList[node1-1]) {
+		    		 // checks if the edge is already in the graph
+		    		 if(edge.getOtherNode() == node2) {
+		    			 if(graph.adjacencyList[node1-1].size() > graph.adjacencyList[node2-1].size()) {
+		    				 viable=0;
+		    				 node1 = random.nextInt(numNodes)+1;
+		    				 break;
+		    			 }	 
+		    			 else if(graph.adjacencyList[node1-1].size() == graph.adjacencyList[node2-1].size()) {
+		    				 if(graph.adjacencyList[node1-1].size() == numNodes) {
+		    					 viable = 0;
+		    			    	 node1 = random.nextInt(numNodes)+1;
+		    			    	 node2 = random.nextInt(numNodes)+1;
+		    			    	 break;
+		    				 }
+		    				 else {
+		    					 viable = 0;
+		    					 node1 = random.nextInt(numNodes)+1;
+		    					 break;
+		    				 }
+
+		    			 }
+		    			 else {
+		    				 viable = 0;
+		    				 node2 = random.nextInt(numNodes)+1;
+		    				 break;
+		    			 }
+
+		    		 }
+		    		 // it is viable to add an edge
+		    		 else viable = 1;
+		    	 }		    			    	 		    	 
+	    	 }
+	    	 // add the edge to the graph
+	    	 graph.addEdge(node1, node2, weight); 	    	 
+	     }
+	     
+	 }
+	
+	 // Build graph for -f  
+	 public static void buildGraph(Graph graph, int numNodes, int[][] matrix) {	
+	     
+		 int weight;
+	     
+	     // Create the adjacency lists
+	     for (int i = 0; i < matrix.length; i++) { 	
+	         for (int j = i; j < matrix.length; j++) {
+	             weight = matrix[i][j];
+	         	if (weight != 0) {
+	                 graph.addEdge(i+1, j+1, weight);
+	             }
+	         }
+	     }
+
+	 }
 
 }

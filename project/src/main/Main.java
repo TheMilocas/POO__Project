@@ -1,29 +1,27 @@
 package main;
 
-import graph.Edge;
-
 import graph.Graph;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
-import java.util.Random;
 
 public class Main {
 
 	public static void main(String[] args) {
 		
         
-		    int command = ReadCommand(String[] args);
-
+		    int command = readCommand(args);
+		    
+		    // Criar um metodo chamado operador para lidar com o output do comando
 		    if(command == -1)
 		    	return; // Exit
-		    // Do -r
+		    // Do -r	
 		    else if(command == 0) {
 		    	
 	            int numNodes = Integer.parseInt(args[1]);
 	            int maxWeight = Integer.parseInt(args[2]);
-	            int n1 = Integer.parseInt(args[3]);
+	            int nestNode = Integer.parseInt(args[3]);
 	            double alpha = Double.parseDouble(args[4]);
 	            double beta = Double.parseDouble(args[5]);
 	            double delta = Double.parseDouble(args[6]);
@@ -34,55 +32,31 @@ public class Main {
 	            double tau = Double.parseDouble(args[11]);
 	            
 	            Graph graph = new Graph(numNodes);
-	            Random random = new Random();
-	            
-	            // Random weight matrix
-	            int[][] matrix = new int[numNodes][numNodes];            
-	            
-	            for (int i = 0; i < numNodes; i++) {
-	                for (int j = i; j < numNodes; j++) {
-	                	if (i == j)
-	                		matrix[i][j] = 0;
-	                	else
-	                		matrix[i][j] = random.nextInt(maxWeight+1);
-	                }
-	            }
-		    	
-	            // Create the adjacency lists
-	            int weight;
-	            
-	            for (int i = 0; i < matrix.length; i++) { 	
-	                for (int j = i; j < matrix.length; j++) {
-	                    weight = matrix[i][j];
-	                	if (weight != 0) {
-	                        graph.addEdge(i+1, j+1, weight);
-	                    }
-	                }
-	            }
+	            Graph.buildGraph(graph, numNodes, maxWeight);
 	            
 	            // Print the graph
 	            System.out.println("Generated GRAPH: ");
 	            graph.printGraph();
 	            
-	            graph.hasHamiltonian(); // Has hamiltonian cycle? 
 	            
 		    }
 		    // Do -f
 		    else {
 		    	String inputFile = args[1];
+                int numNodes = 0; // Declaration of numNodes outside of try block
+                Scanner scanner = null; // Declaration of scanner outside of try block
 		    	
-		    	// Parse the input file and extract the parameters and adjacency matrix
-	            // Create the graph based on the adjacency matrix
 	        	try {
-	                File file = new File(inputFile);
-	                Scanner scanner = new Scanner(file);
+	        		
+	        		File file = new File(inputFile);
+	                scanner = new Scanner(file);
 
 	                // Read the first line containing the simulation parameters
 	                String parametersLine = scanner.nextLine();
 	                String[] parameters = parametersLine.split("\\s+");
 	                
 
-	                int numNodes = Integer.parseInt(parameters[0]);
+	                numNodes = Integer.parseInt(parameters[0]);
 	                int nestNode = Integer.parseInt(parameters[1]);
 	                double alpha = Double.parseDouble(parameters[2]);
 	                double beta = Double.parseDouble(parameters[3]);
@@ -95,7 +69,6 @@ public class Main {
 	                }
 	        	catch (FileNotFoundException e) {
 	        		System.out.println("Input file not found: " + inputFile);
-	        		scanner.close();
 	        		return; // Exit
 	        	}
 	        	catch (NumberFormatException e) {
@@ -114,7 +87,7 @@ public class Main {
 	                    if (weights.length != numNodes) {
 	                        System.out.println("Invalid structure. The graph structure doesn't follow the specified number of nodes.");
 	                        scanner.close();
-	                        return;
+	                        return; // Exit
 	                    }
 	                	
 	                    for (int j = i; j < numNodes; j++) {
@@ -125,27 +98,16 @@ public class Main {
 	                
 	                scanner.close(); // End of File
 	                
-	                int weight;
-	                
-	                // Create the adjacency lists
-	                for (int i = 0; i < matrix.length; i++) { 	
-	                    for (int j = i; j < matrix.length; j++) {
-	                        weight = matrix[i][j];
-	                    	if (weight != 0) {
-	                            graph.addEdge(i+1, j+1, weight);
-	                        }
-	                    }
-	                }
+	                Graph.buildGraph(graph, numNodes, matrix);
 	                
 	                // Print the graph
 	                System.out.println("Input file GRAPH: ");
 	                graph.printGraph();
 	                
-	                graph.hasHamiltonian(); // O MAIN PARA FICHEIROS TA AQUI!!!
 		    }
 	}
 
-	private int ReadCommand(String[] args) {
+	private static int readCommand(String[] args) {
 		
 		if (args.length == 0) {
             System.out.println("Invalid command. Please provide the necessary parameters.");
@@ -183,7 +145,9 @@ public class Main {
                 return -1;
         	}
         	else 
-        		return 2;
+        		return 1;
 		}
+		return -1;
 	}
+	
 }
